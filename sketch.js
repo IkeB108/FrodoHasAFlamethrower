@@ -99,6 +99,8 @@ function setup(){
   nearNPC = "none";
   linkHovering = "none";
   personTalking = "none";
+  
+  musicStartedOnce = false;
 }
 
 function onLoadComplete(){
@@ -120,9 +122,6 @@ function onLoadComplete(){
   
   myDialogue = new DialogueTree(dialogue)
   myDialogue.activeNode = "none"
-  
-  soundMusic.loop = true;
-  soundMusic.play();
 }
 
 function draw(){
@@ -141,7 +140,6 @@ function draw(){
     myTileRenderer.deleteUnusedGraphics();
   }
 }
-
 
 function cursorClick(){
   for(let i in buttons){
@@ -621,6 +619,12 @@ function cursorPressStart(){
   }
   icursor.x = icursor.allCursors[0].x;
   icursor.y = icursor.allCursors[0].y;
+  
+  if(!musicStartedOnce){
+    soundMusic.loop = true;
+    soundMusic.play();
+    musicStartedOnce = true;
+  }
   
 }
 
