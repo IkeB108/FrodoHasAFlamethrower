@@ -1,4 +1,4 @@
-//3
+//5
 function setup(){
   icursor = new MobileFriendlyCursor({
     threeFingerConsole: true,
@@ -194,6 +194,9 @@ function windowResized( isManual ){
         onclick: () => {
           currentScreen = "play";
           soundCollect.play();
+          player.speed = width * 0.005
+          player.x = mapImageW * (110/2190)
+          player.y = mapImageH * (196/386)
         }
       },
       "talk": {
@@ -623,7 +626,9 @@ function cursorPressStart(){
     icursor.atFirstPress = {x: icursor.x, y: icursor.y}
   }
   if(icursor.allCursors.length > 1){
-    if(player.hasFlamethrower)soundFlameStart.play();
+    if(player.hasFlamethrower){
+      try { soundFlameStart.play(); } catch {}
+    }
   }
   icursor.x = icursor.allCursors[0].x;
   icursor.y = icursor.allCursors[0].y;
@@ -631,12 +636,8 @@ function cursorPressStart(){
 }
 
 function cursorPressEnd(){
-  if(icursor.allCursors.length < 2){
-    if(player.hasFlamethrower){
-      soundFlameStart.pause();
-      soundFlameStart.currentTime = 0;
-    }
-  }
+  soundFlameStart.pause();
+  soundFlameStart.currentTime = 0;
 }
 
 function drawStartScreen(){
