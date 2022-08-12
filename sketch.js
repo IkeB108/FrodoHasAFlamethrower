@@ -1,4 +1,4 @@
-//2
+//3
 function setup(){
   icursor = new MobileFriendlyCursor({
     threeFingerConsole: true,
@@ -138,6 +138,11 @@ function draw(){
     else player.canSwipeToMove = false;
     if(currentScreen == "play")drawPlayScreen();
     myTileRenderer.deleteUnusedGraphics();
+    
+    if(frameCount % 30 == 0 && soundMusic.paused && (!myDialogue.activeNode.title == "win" || myDialogue.activeNode == "none") ){
+      soundMusic.play();
+    }
+    
   }
 }
 
@@ -617,15 +622,21 @@ function cursorPressStart(){
   if(icursor.allCursors.length == 1){
     icursor.atFirstPress = {x: icursor.x, y: icursor.y}
   }
+  if(icursor.allCursors.length > 1){
+    if(player.hasFlamethrower)soundFlameStart.play();
+  }
   icursor.x = icursor.allCursors[0].x;
   icursor.y = icursor.allCursors[0].y;
   
-  if(!musicStartedOnce){
-    soundMusic.loop = true;
-    soundMusic.play();
-    musicStartedOnce = true;
+}
+
+function cursorPressEnd(){
+  if(icursor.allCursors.length < 2){
+    if(player.hasFlamethrower){
+      soundFlameStart.pause();
+      soundFlameStart.currentTime = 0;
+    }
   }
-  
 }
 
 function drawStartScreen(){
