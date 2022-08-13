@@ -146,6 +146,13 @@ function draw(){
   }
 }
 
+let musicInterval = setInterval( ()=> {
+  if(document.hidden && !soundMusic.paused){
+    soundMusic.pause()
+    soundMusic.currentTime = 0;
+  }
+}, 500)
+
 function cursorClick(){
   for(let i in buttons){
     let b = buttons[i];
