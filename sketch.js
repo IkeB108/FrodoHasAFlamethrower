@@ -1,4 +1,4 @@
-//5
+//6
 function setup(){
   icursor = new MobileFriendlyCursor({
     threeFingerConsole: true,
@@ -33,7 +33,7 @@ function setup(){
   player = {
     x: width * (0.2), //position in pixels in map image (after map image is scaled),
     y: (height/2),
-    speed: width * 0.005,
+    speed: () => { return (width * 0.005) * (70/frameRate()) },
     moving: false,
     movingTimer: 0,
     hasFlamethrower: false,
@@ -175,7 +175,6 @@ function cursorClick(){
 function windowResized( isManual ){
   let codeToRun = (isManual) => {
     if(isManual !== "isManual"){
-      player.speed = width * 0.005
       player.x = mapImageW * (110/2190)
       player.y = mapImageH * (196/386)
     }
@@ -201,7 +200,6 @@ function windowResized( isManual ){
         onclick: () => {
           currentScreen = "play";
           soundCollect.play();
-          player.speed = width * 0.005
           player.x = mapImageW * (110/2190)
           player.y = mapImageH * (196/386)
         }
@@ -543,16 +541,16 @@ function updatePlayer(){
   let oldx = player.x
   let oldy = player.y
   if(pressedKeys["ArrowLeft"] || pressedKeys["a"]){
-    newx -= player.speed;
+    newx -= player.speed();
   }
   if(pressedKeys["ArrowRight"] || pressedKeys["d"]){
-    newx += player.speed;
+    newx += player.speed();
   }
   if(pressedKeys["ArrowUp"] || pressedKeys["w"]){
-    newy -= player.speed;
+    newy -= player.speed();
   }
   if(pressedKeys["ArrowDown"] || pressedKeys["s"]){
-    newy += player.speed;
+    newy += player.speed();
   }
   
   if(icursor.leftPressed && icursor.onMobile){
@@ -561,11 +559,11 @@ function updatePlayer(){
     let deltay = icursor.y - icursor.atFirstPress.y;
     if(abs(deltay) < width/12) deltay = 0;
     
-    if(deltax < 0)newx -= player.speed;
-    if(deltax > 0)newx += player.speed;
+    if(deltax < 0)newx -= player.speed();
+    if(deltax > 0)newx += player.speed();
     
-    if(deltay < 0)newy -= player.speed;
-    if(deltay > 0)newy += player.speed;
+    if(deltay < 0)newy -= player.speed();
+    if(deltay > 0)newy += player.speed();
   }
   player.flaming = false;
   if(pressedKeys["f"] || pressedKeys[" "] || icursor.allCursors.length > 1){
