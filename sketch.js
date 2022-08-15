@@ -1,7 +1,6 @@
 //6
 function setup(){
   icursor = new MobileFriendlyCursor({
-    threeFingerConsole: true,
     minAspectRatio: 3/2,
     maxAspectRatio: 3/2,
   })
